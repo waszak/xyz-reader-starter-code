@@ -12,13 +12,14 @@ import android.os.RemoteException;
 import android.text.format.Time;
 import android.util.Log;
 
-import com.example.xyzreader.remote.RemoteEndpointUtil;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.xyzreader.model.Article;
+import com.example.xyzreader.utilities.NetworkUtils;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.Observable;
+import timber.log.Timber;
 
 public class UpdaterService extends IntentService {
     private static final String TAG = "UpdaterService";
@@ -55,29 +56,25 @@ public class UpdaterService extends IntentService {
         cpo.add(ContentProviderOperation.newDelete(dirUri).build());
 
         try {
-            JSONArray array = RemoteEndpointUtil.fetchJsonArray();
-            if (array == null) {
-                throw new JSONException("Invalid parsed item array" );
-            }
+            Observable<List<Article>> articles = NetworkUtils.buildRetrofit().getArticles();
 
-            for (int i = 0; i < array.length(); i++) {
+            for (Article article : articles.blockingFirst()) {
                 ContentValues values = new ContentValues();
-                JSONObject object = array.getJSONObject(i);
-                values.put(ItemsContract.Items.SERVER_ID, object.getString("id" ));
-                values.put(ItemsContract.Items.AUTHOR, object.getString("author" ));
-                values.put(ItemsContract.Items.TITLE, object.getString("title" ));
-                values.put(ItemsContract.Items.BODY, object.getString("body" ));
-                values.put(ItemsContract.Items.THUMB_URL, object.getString("thumb" ));
-                values.put(ItemsContract.Items.PHOTO_URL, object.getString("photo" ));
-                values.put(ItemsContract.Items.ASPECT_RATIO, object.getString("aspect_ratio" ));
-                values.put(ItemsContract.Items.PUBLISHED_DATE, object.getString("published_date"));
+                values.put(ItemsContract.Items.SERVER_ID, article.getId());
+                values.put(ItemsContract.Items.AUTHOR, article.getAuthor());
+                values.put(ItemsContract.Items.TITLE, article.getTitle());
+                values.put(ItemsContract.Items.BODY, article.getBody());
+                values.put(ItemsContract.Items.THUMB_URL, article.getThumb());
+                values.put(ItemsContract.Items.PHOTO_URL, article.getPhoto());
+                values.put(ItemsContract.Items.ASPECT_RATIO, article.getAspectRatio());
+                values.put(ItemsContract.Items.PUBLISHED_DATE, article.getPublishedDate());
                 cpo.add(ContentProviderOperation.newInsert(dirUri).withValues(values).build());
             }
 
             getContentResolver().applyBatch(ItemsContract.CONTENT_AUTHORITY, cpo);
 
-        } catch (JSONException | RemoteException | OperationApplicationException e) {
-            Log.e(TAG, "Error updating content.", e);
+        } catch ( RemoteException | OperationApplicationException e) {
+            Timber.e(e, "Error updating content.");
         }
 
         sendStickyBroadcast(
