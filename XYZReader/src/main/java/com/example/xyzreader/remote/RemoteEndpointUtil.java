@@ -12,6 +12,7 @@ import java.net.URL;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import timber.log.Timber;
 
 public class RemoteEndpointUtil {
     private static final String TAG = "RemoteEndpointUtil";
@@ -24,7 +25,7 @@ public class RemoteEndpointUtil {
         try {
             itemsJson = fetchPlainText(Config.BASE_URL);
         } catch (IOException e) {
-            Log.e(TAG, "Error fetching items JSON", e);
+            Timber.e(e, "Error fetching items JSON");
             return null;
         }
 
@@ -37,7 +38,7 @@ public class RemoteEndpointUtil {
             }
             return (JSONArray) val;
         } catch (JSONException e) {
-            Log.e(TAG, "Error parsing items JSON", e);
+            Timber.e(e, "Error parsing items JSON");
         }
 
         return null;

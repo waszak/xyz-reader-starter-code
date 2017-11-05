@@ -51,13 +51,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     public ArticleListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.list_item_article, parent, false);
         final ArticleListAdapter.ViewHolder vh = new ArticleListAdapter.ViewHolder(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mContext.startActivity(new Intent(Intent.ACTION_VIEW,
-                        ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
-            }
-        });
+        view.setOnClickListener(view1 -> mContext.startActivity(new Intent(Intent.ACTION_VIEW,
+                ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())))));
         return vh;
     }
 

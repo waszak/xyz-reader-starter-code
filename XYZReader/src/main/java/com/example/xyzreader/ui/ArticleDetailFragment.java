@@ -5,21 +5,17 @@ import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ShareCompat;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -190,34 +186,24 @@ public class ArticleDetailFragment extends Fragment implements
             return;
         }
         unbinder = ButterKnife.bind(this,mRootView);
-        mDrawInsetsFrameLayout.setOnInsetsCallback(new DrawInsetsFrameLayout.OnInsetsCallback() {
-            @Override
-            public void onInsetsChanged(Rect insets) {
-                mTopInset = insets.top;
-            }
-        });
+        mDrawInsetsFrameLayout.setOnInsetsCallback(insets -> mTopInset = insets.top);
 
-        mScrollView.setCallbacks(new ObservableScrollView.Callbacks() {
-            @Override
-            public void onScrollChanged() {
-                mScrollY = mScrollView.getScrollY();
-                getActivityCast().onUpButtonFloorChanged(mItemId, ArticleDetailFragment.this);
-                mPhotoContainerView.setTranslationY((int) (mScrollY - mScrollY / PARALLAX_FACTOR));
-                updateStatusBar();
-            }
+        mScrollView.setCallbacks(() -> {
+            mScrollY = mScrollView.getScrollY();
+            getActivityCast().onUpButtonFloorChanged(mItemId, ArticleDetailFragment.this);
+            mPhotoContainerView.setTranslationY((int) (mScrollY - mScrollY / PARALLAX_FACTOR));
+            updateStatusBar();
         });
 
         mStatusBarColorDrawable = new ColorDrawable(0);
 
-        mFloatActionBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        mFloatActionBar.setOnClickListener(view ->
                 startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
                         .setType("text/plain")
                         .setText("Some sample text")
-                        .getIntent(), getString(R.string.action_share)));
-            }
-        });
+                        .getIntent(), getString(R.string.action_share)))
+
+        );
 
         mBylineView.setMovementMethod(new LinkMovementMethod());
 

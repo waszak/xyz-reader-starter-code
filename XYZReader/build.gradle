@@ -7,7 +7,6 @@ buildscript {
     }
 }
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 
 repositories {
     mavenCentral()
@@ -21,6 +20,10 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 }
 
