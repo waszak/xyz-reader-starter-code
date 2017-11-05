@@ -38,9 +38,10 @@ public class UpdaterService extends IntentService {
         Time time = new Time();
 
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        assert cm != null;
         NetworkInfo ni = cm.getActiveNetworkInfo();
         if (ni == null || !ni.isConnected()) {
-            Log.w(TAG, "Not online, not refreshing.");
+            Timber.tag(TAG).w("Not online, not refreshing.");
             return;
         }
 
