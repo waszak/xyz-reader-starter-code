@@ -8,17 +8,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.graphics.Palette;
@@ -40,7 +30,16 @@ import com.android.volley.toolbox.ImageLoader;
 import com.example.xyzreader.R;
 import com.example.xyzreader.adapter.AndroidArticleAdapter;
 import com.example.xyzreader.data.ArticleLoader;
+import com.example.xyzreader.helpers.ImageLoaderHelper;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import butterknife.BindBool;
+import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -61,27 +60,30 @@ public class ArticleDetailFragment extends Fragment implements
     private long mItemId;
     private View mRootView;
     private int mMutedColor = 0xFF333333;
-    @BindView(R.id.scrollview) ObservableScrollView mScrollView;
-    @BindView(R.id.draw_insets_frame_layout) DrawInsetsFrameLayout mDrawInsetsFrameLayout;
     private ColorDrawable mStatusBarColorDrawable;
     private Unbinder unbinder;
-
     private int mTopInset;
+    private int mScrollY;
+
+    @BindView(R.id.scrollview) ObservableScrollView mScrollView;
+    @BindView(R.id.draw_insets_frame_layout) DrawInsetsFrameLayout mDrawInsetsFrameLayout;
+
     //TODO: @BindView(R.id.share_fab) FloatingActionBar mFloatActionBar;
     @BindView(R.id.photo_container) View mPhotoContainerView;
     @BindView(R.id.photo) ImageView mPhotoView;
-    private int mScrollY;
-    private boolean mIsCard = false;
-    private int mStatusBarFullOpacityBottom;
+    @BindBool(R.bool.detail_is_card) boolean mIsCard;
+    @BindDimen(R.dimen.detail_card_top_margin) int mStatusBarFullOpacityBottom;
+    @BindView(R.id.article_title) TextView mTitleView;
+    @BindView(R.id.article_byline) TextView mBylineView;
+    @BindView(R.id.recycler_view_article_body) RecyclerView mRecyclerView;
+    @BindView(R.id.meta_bar) View mMetaBar;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
     // Use default locale format
     private SimpleDateFormat outputFormat = new SimpleDateFormat();
     // Most time functions can only handle 1902 - 2037
     private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
-    @BindView(R.id.article_title) TextView mTitleView;
-    @BindView(R.id.article_byline) TextView mBylineView;
-    @BindView(R.id.recycler_view_article_body) RecyclerView mRecyclerView;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -105,10 +107,6 @@ public class ArticleDetailFragment extends Fragment implements
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             mItemId = getArguments().getLong(ARG_ITEM_ID);
         }
-
-        mIsCard = getResources().getBoolean(R.bool.detail_is_card);
-        mStatusBarFullOpacityBottom = getResources().getDimensionPixelSize(
-                R.dimen.detail_card_top_margin);
         setHasOptionsMenu(true);
     }
 
@@ -266,7 +264,7 @@ public class ArticleDetailFragment extends Fragment implements
                                 Palette p = Palette.generate(bitmap, 12);
                                 mMutedColor = p.getDarkMutedColor(0xFF333333);
                                 mPhotoView.setImageBitmap(imageContainer.getBitmap());
-                                mRootView.findViewById(R.id.meta_bar)
+                                mMetaBar
                                         .setBackgroundColor(mMutedColor);
                                 updateStatusBar();
                             }
