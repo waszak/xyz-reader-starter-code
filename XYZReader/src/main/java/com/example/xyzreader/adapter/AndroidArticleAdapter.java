@@ -13,6 +13,9 @@ import com.example.xyzreader.R;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Waszak on 05.11.2017.
  */
@@ -22,11 +25,11 @@ public class AndroidArticleAdapter extends Adapter<AndroidArticleAdapter.MyViewH
     private List<String> paragraphList;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView mTextView;
+        @BindView(R.id.article_body) TextView mTextView;
 
         private MyViewHolder(View view) {
             super(view);
-            mTextView = (TextView) view.findViewById(R.id.article_body);
+            ButterKnife.bind(this,view);
             mTextView.setTypeface(Typeface.createFromAsset(view.getResources().getAssets(), "Rosario-Regular.ttf"));
         }
     }
