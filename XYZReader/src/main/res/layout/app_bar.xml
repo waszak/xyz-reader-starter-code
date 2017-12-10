@@ -10,12 +10,9 @@
     tools:layout_editor_absoluteY="0dp"
     tools:targetApi="O">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
-
+        android:layout_height="match_parent">
         <ImageView
             android:id="@+id/logo_image"
             android:layout_width="match_parent"
@@ -24,6 +21,11 @@
             android:scaleType="fitCenter"
             android:contentDescription="@string/app_name"
             android:src="@drawable/logo"/>
-
-    </android.support.v7.widget.Toolbar>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom">
+        </android.support.v7.widget.Toolbar>
+    </RelativeLayout>
 </android.support.design.widget.AppBarLayout>

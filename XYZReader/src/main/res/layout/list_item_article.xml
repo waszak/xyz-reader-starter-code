@@ -24,13 +24,15 @@
             android:background="@color/photo_placeholder"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
+            android:transitionName="@string/article_image_shared"
             android:contentDescription="@string/image_for_article"
             tools:layout_constraintTop_creator="1"
             tools:layout_constraintBottom_creator="1"
             app:layout_constraintBottom_toTopOf="@+id/article_title"
             tools:layout_constraintLeft_creator="1"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:targetApi="LOLLIPOP"/>
 
         <TextView
             android:id="@+id/article_title"

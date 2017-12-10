@@ -18,7 +18,6 @@
 <resources>
 
     <style name="Theme.Bacon" parent="Theme.AppCompat">
-
     </style>
 
     <style name="Theme.Bacon.NoActionBar" parent="Theme.Bacon">

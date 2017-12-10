@@ -1,8 +1,12 @@
 package com.example.xyzreader.adapter;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.format.DateUtils;
@@ -51,8 +55,20 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     public ArticleListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.list_item_article, parent, false);
         final ArticleListAdapter.ViewHolder vh = new ArticleListAdapter.ViewHolder(view);
-        view.setOnClickListener(view1 -> mContext.startActivity(new Intent(Intent.ACTION_VIEW,
-                ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())))));
+        view.setOnClickListener(view1 ->
+        {
+            Intent intent = new Intent(Intent.ACTION_VIEW,
+                    ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
+            if(Build.VERSION.SDK_INT >= 21){
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((AppCompatActivity)mContext,
+                        vh.thumbnailView, vh.thumbnailView.getTransitionName()).toBundle();
+                mContext.startActivity(intent,bundle);
+            }
+            else{
+                mContext.startActivity(intent);
+            }
+        });
+
         return vh;
     }
 

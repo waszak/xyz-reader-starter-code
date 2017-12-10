@@ -58,9 +58,9 @@ public class ArticleDetailFragment extends Fragment implements
     private View mRootView;
     private Unbinder unbinder;
 
-    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.toolbar_details) Toolbar mToolbar;
     @BindView(R.id.share_fab) FloatingActionButton mFloatActionBar;
-    @BindView(R.id.logo_image) ImageView mPhotoView;
+    @BindView(R.id.image_details) ImageView mPhotoView;
     @BindBool(R.bool.detail_is_card) boolean mIsCard;
     @BindDimen(R.dimen.detail_card_top_margin) int mStatusBarFullOpacityBottom;
     @BindView(R.id.article_title) TextView mTitleView;
