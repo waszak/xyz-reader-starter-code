@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.example.xyzreader.R;
 import com.example.xyzreader.adapter.ArticleListAdapter;
@@ -34,11 +33,14 @@ import butterknife.ButterKnife;
 public class ArticleListActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    public static final String TAG = ArticleListActivity.class.toString();
-    @BindInt(R.integer.list_column_count) int mColumnCount;
-    @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+    @BindInt(R.integer.list_column_count)
+    int mColumnCount;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
     @BindView(R.id.toolbar_container)
     AppBarLayout toolbarContainerView;
 
@@ -49,7 +51,7 @@ public class ArticleListActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
 
         getLoaderManager().initLoader(0, null, this);
-
+        mSwipeRefreshLayout.setOnRefreshListener(this::refresh);
         if (savedInstanceState == null) {
             refresh();
         }

@@ -37,7 +37,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     // Use default locale format
     private SimpleDateFormat outputFormat = new SimpleDateFormat();
     // Most time functions can only handle 1902 - 2037
-    private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
+    private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2, 1, 1);
 
 
     public ArticleListAdapter(Context context, Cursor cursor) {
@@ -59,12 +59,11 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         {
             Intent intent = new Intent(Intent.ACTION_VIEW,
                     ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
-            if(Build.VERSION.SDK_INT >= 21){
-                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((AppCompatActivity)mContext,
+            if (Build.VERSION.SDK_INT >= 21) {
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation((AppCompatActivity) mContext,
                         vh.thumbnailView, vh.thumbnailView.getTransitionName()).toBundle();
-                mContext.startActivity(intent,bundle);
-            }
-            else{
+                mContext.startActivity(intent, bundle);
+            } else {
                 mContext.startActivity(intent);
             }
         });
@@ -118,11 +117,12 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         ImageView thumbnailView;
         @BindView(R.id.article_title)
         TextView titleView;
-        @BindView(R.id.article_subtitle) TextView subtitleView;
+        @BindView(R.id.article_subtitle)
+        TextView subtitleView;
 
         ViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
         }
     }
 }

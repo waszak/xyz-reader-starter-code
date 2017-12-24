@@ -25,11 +25,12 @@ public class AndroidArticleAdapter extends Adapter<AndroidArticleAdapter.MyViewH
     private List<String> paragraphList;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.article_body) TextView mTextView;
+        @BindView(R.id.article_body)
+        TextView mTextView;
 
         private MyViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
             mTextView.setTypeface(Typeface.createFromAsset(view.getResources().getAssets(), "Rosario-Regular.ttf"));
         }
     }

@@ -17,22 +17,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetworkUtils {
 
     private static Retrofit retrofit;
+
     public static ArticleService buildRetrofit() {
-        if(retrofit == null) {
+        if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(ArticleService.ENDPOINT)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-        return  retrofit.create(ArticleService.class);
+        return retrofit.create(ArticleService.class);
     }
 
     private static final int CACHE_SIZE = 10 * 1024 * 1024;
     private static boolean sIsPicassoSingletonSet;
 
-    public static Picasso getPicasso(Context context){
-        if(!sIsPicassoSingletonSet) {
+    public static Picasso getPicasso(Context context) {
+        if (!sIsPicassoSingletonSet) {
             Cache cache = new Cache(context.getCacheDir(), CACHE_SIZE);
             okhttp3.OkHttpClient okHttp3Client = new okhttp3.OkHttpClient.Builder().cache(cache).build();
             OkHttp3Downloader downloader = new OkHttp3Downloader(okHttp3Client);

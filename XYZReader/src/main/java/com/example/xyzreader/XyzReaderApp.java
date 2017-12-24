@@ -4,11 +4,11 @@ import android.app.Application;
 
 import timber.log.Timber;
 
-public class XyzReaderApp extends Application{
+public class XyzReaderApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if(BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             Timber.uprootAll();
             Timber.plant(new Timber.DebugTree());
         }

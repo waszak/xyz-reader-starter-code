@@ -5,8 +5,6 @@ import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ShareCompat;
@@ -58,21 +56,30 @@ public class ArticleDetailFragment extends Fragment implements
     private View mRootView;
     private Unbinder unbinder;
 
-    @BindView(R.id.toolbar_details) Toolbar mToolbar;
-    @BindView(R.id.share_fab) FloatingActionButton mFloatActionBar;
-    @BindView(R.id.image_details) ImageView mPhotoView;
-    @BindBool(R.bool.detail_is_card) boolean mIsCard;
-    @BindDimen(R.dimen.detail_card_top_margin) int mStatusBarFullOpacityBottom;
-    @BindView(R.id.article_title) TextView mTitleView;
-    @BindView(R.id.article_byline) TextView mBylineView;
-    @BindView(R.id.recycler_view_article_body) RecyclerView mRecyclerView;
-    @BindView(R.id.meta_bar) View mMetaBar;
+    @BindView(R.id.toolbar_details)
+    Toolbar mToolbar;
+    @BindView(R.id.share_fab)
+    FloatingActionButton mFloatActionBar;
+    @BindView(R.id.image_details)
+    ImageView mPhotoView;
+    @BindBool(R.bool.detail_is_card)
+    boolean mIsCard;
+    @BindDimen(R.dimen.detail_card_top_margin)
+    int mStatusBarFullOpacityBottom;
+    @BindView(R.id.article_title)
+    TextView mTitleView;
+    @BindView(R.id.article_byline)
+    TextView mBylineView;
+    @BindView(R.id.recycler_view_article_body)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.meta_bar)
+    View mMetaBar;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
     // Use default locale format
     private SimpleDateFormat outputFormat = new SimpleDateFormat();
     // Most time functions can only handle 1902 - 2037
-    private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2,1,1);
+    private GregorianCalendar START_OF_EPOCH = new GregorianCalendar(2, 1, 1);
 
 
     /**
@@ -117,7 +124,7 @@ public class ArticleDetailFragment extends Fragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
         unbinder = ButterKnife.bind(this, mRootView);
 
@@ -128,7 +135,7 @@ public class ArticleDetailFragment extends Fragment implements
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(unbinder != null) {
+        if (unbinder != null) {
             unbinder.unbind();
             unbinder = null;
         }
@@ -150,11 +157,11 @@ public class ArticleDetailFragment extends Fragment implements
         if (mRootView == null) {
             return;
         }
-        unbinder = ButterKnife.bind(this,mRootView);
+        unbinder = ButterKnife.bind(this, mRootView);
 
-        AppCompatActivity activity =  ((AppCompatActivity)mRootView.getContext());
+        AppCompatActivity activity = ((AppCompatActivity) mRootView.getContext());
         activity.setSupportActionBar(mToolbar);
-        if(activity.getSupportActionBar() != null) {
+        if (activity.getSupportActionBar() != null) {
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -188,13 +195,13 @@ public class ArticleDetailFragment extends Fragment implements
                 // If date is before 1902, just show the string
                 mBylineView.setText(Html.fromHtml(
                         outputFormat.format(publishedDate) + " by <font color='#ffffff'>"
-                        + mCursor.getString(ArticleLoader.Query.AUTHOR)
+                                + mCursor.getString(ArticleLoader.Query.AUTHOR)
                                 + "</font>"));
 
             }
 
             String body = mCursor.getString(ArticleLoader.Query.BODY);
-            String [] paragraphs = body.split("(\r\n?|\n){3}");
+            String[] paragraphs = body.split("(\r\n?|\n){3}");
 
             AndroidArticleAdapter mAdapter = new AndroidArticleAdapter(Arrays.asList(paragraphs));
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -207,7 +214,7 @@ public class ArticleDetailFragment extends Fragment implements
         } else {
             mRootView.setVisibility(View.GONE);
             mTitleView.setText("N/A");
-            mBylineView.setText("N/A" );
+            mBylineView.setText("N/A");
         }
     }
 
@@ -231,7 +238,7 @@ public class ArticleDetailFragment extends Fragment implements
             mCursor.close();
             mCursor = null;
         }
-        if(unbinder!= null) {
+        if (unbinder != null) {
             unbinder.unbind();
             unbinder = null;
         }
@@ -241,7 +248,7 @@ public class ArticleDetailFragment extends Fragment implements
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
         mCursor = null;
-        if(unbinder!= null) {
+        if (unbinder != null) {
             unbinder.unbind();
             unbinder = null;
         }
