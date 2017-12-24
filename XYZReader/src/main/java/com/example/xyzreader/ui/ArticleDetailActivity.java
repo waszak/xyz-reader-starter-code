@@ -62,6 +62,9 @@ public class ArticleDetailActivity extends AppCompatActivity
         mPager.setPageMargin((int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
         mPager.setPageMarginDrawable(new ColorDrawable(0x22000000));
+        mPager.setPageTransformer(true,
+                new DepthPageTransformer()
+        );
 
         mPager.clearOnPageChangeListeners();
         mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
