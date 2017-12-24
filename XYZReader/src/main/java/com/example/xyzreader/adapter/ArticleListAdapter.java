@@ -15,10 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
 import com.example.xyzreader.data.ItemsContract;
+import com.example.xyzreader.ui.ArticleListActivity;
 import com.example.xyzreader.utilities.NetworkUtils;
 
 import java.text.ParseException;
@@ -57,6 +59,11 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         final ArticleListAdapter.ViewHolder vh = new ArticleListAdapter.ViewHolder(view);
         view.setOnClickListener(view1 ->
         {
+            ArticleListActivity activity = ((ArticleListActivity)mContext);
+            if(activity  != null && activity.isRefreshing()){
+                Toast.makeText(mContext, R.string.refreshing,Toast.LENGTH_LONG).show();
+                return;
+            }
             Intent intent = new Intent(Intent.ACTION_VIEW,
                     ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
             if (Build.VERSION.SDK_INT >= 21) {
