@@ -9,6 +9,8 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +37,9 @@ public class ArticleListActivity extends AppCompatActivity implements
 
     @BindInt(R.integer.list_column_count)
     int mColumnCount;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout mCoordinatorLayout;
+
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.swipe_refresh_layout)
@@ -89,7 +94,15 @@ public class ArticleListActivity extends AppCompatActivity implements
         }
     };
 
+    private Snackbar mSnackbar;
     private void updateRefreshingUI() {
+        if(mSnackbar == null && mIsRefreshing){
+            mSnackbar = Snackbar.make(mCoordinatorLayout, R.string.refreshing,Snackbar.LENGTH_INDEFINITE);
+            mSnackbar.show();
+        }else if(mSnackbar!= null){
+            mSnackbar.dismiss();
+            mSnackbar = null;
+        }
         mSwipeRefreshLayout.setRefreshing(mIsRefreshing);
     }
 

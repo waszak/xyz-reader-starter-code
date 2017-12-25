@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
@@ -61,7 +60,6 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         {
             ArticleListActivity activity = ((ArticleListActivity)mContext);
             if(activity  != null && activity.isRefreshing()){
-                Toast.makeText(mContext, R.string.refreshing,Toast.LENGTH_LONG).show();
                 return;
             }
             Intent intent = new Intent(Intent.ACTION_VIEW,
