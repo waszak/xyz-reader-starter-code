@@ -70,11 +70,11 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:contentDescription="@string/action_share"
-        android:elevation="@dimen/fab_elevation"
-        android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_share"
-        android:scaleType="center"
+        android:layout_margin="@dimen/fab_margin"
         android:layout_gravity="end|bottom"
+        android:scaleType="center"
+        app:layout_behavior="com.example.xyzreader.ui.ShowingOfFloatingActionButtonBehavior"
         tools:targetApi="O"/>
 
 </android.support.design.widget.CoordinatorLayout>
